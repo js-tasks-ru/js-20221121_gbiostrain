@@ -35,7 +35,7 @@ export default class DoubleSlider {
     }
 
     const offset = 100 * (this.#from - this.min) / (this.max - this.min);
-    this.#elements.fromValue.innerHTML = this.formatter(this.#from);
+    this.#elements.from.innerHTML = this.formatter(this.#from);
     this.#elements.fromThumb.style.left = `${offset}%`;
     this.#elements.progress.style.left = `${offset}%`;
   }
@@ -56,7 +56,7 @@ export default class DoubleSlider {
     }
 
     const offset = 100 * (this.#to - this.min) / (this.max - this.min);
-    this.#elements.toValue.innerHTML = this.formatter(this.#to);
+    this.#elements.to.innerHTML = this.formatter(this.#to);
     this.#elements.toThumb.style.left = `${offset}%`;
     this.#elements.progress.style.right = `${100 - offset}%`;
   }
@@ -73,14 +73,11 @@ export default class DoubleSlider {
   }
 
   getSubElements() {
-    return {
-      fromValue: this.element.querySelector('[data-element="from"]'),
-      toValue: this.element.querySelector('[data-element="to"]'),
-      fromThumb: this.element.querySelector('.range-slider__thumb-left'),
-      toThumb: this.element.querySelector('.range-slider__thumb-right'),
-      slider: this.element.querySelector('.range-slider__inner'),
-      progress: this.element.querySelector('.range-slider__progress'),
-    }
+    return [...this.element.querySelectorAll('[data-element]')]
+      .reduce((elements, element) => {
+        elements[element.dataset.element] = element;
+        return elements;
+      }, {});
   }
 
   onPointnerDown = (event) => {
@@ -125,10 +122,10 @@ export default class DoubleSlider {
     return `
       <div class="range-slider">
         <span data-element="from">${this.formatter(this.#from)}</span>
-        <div class="range-slider__inner">
-          <span class="range-slider__progress"></span>
-          <span class="range-slider__thumb-left"></span>
-          <span class="range-slider__thumb-right"></span>
+        <div data-element="slider" class="range-slider__inner">
+          <span data-element="progress" class="range-slider__progress"></span>
+          <span data-element="fromThumb" class="range-slider__thumb-left"></span>
+          <span data-element="toThumb" class="range-slider__thumb-right"></span>
         </div>
         <span data-element="to">${this.formatter(this.#to)}</span>
       </div>`;
