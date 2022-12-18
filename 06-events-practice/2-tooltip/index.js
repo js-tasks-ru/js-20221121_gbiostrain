@@ -1,6 +1,8 @@
 class Tooltip {
   static #instance;
   #element;
+  #offsetX = 5;
+  #offsetY = 5;
 
   constructor() {
     if (!Tooltip.#instance) {
@@ -39,8 +41,8 @@ class Tooltip {
   }
 
   onPointerMove = (event) => {
-    this.element.style.top = `${event.pageY + 5}px`;
-    this.element.style.left = `${event.pageX + 5}px`;
+    this.element.style.top = `${event.pageY + this.#offsetX}px`;
+    this.element.style.left = `${event.pageX + this.#offsetY}px`;
   }
 
   onPointerOut = () => {
