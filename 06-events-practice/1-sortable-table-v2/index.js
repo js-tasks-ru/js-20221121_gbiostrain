@@ -51,7 +51,7 @@ export default class SortableTable {
   }
 
   getSubElements() {
-    return Array.from(this.element.querySelectorAll('[data-element]'))
+    return [...this.element.querySelectorAll('[data-element]')]
       .reduce((subElemenst, element) => {
         subElemenst[element.dataset.element] = element;
         return subElemenst;
